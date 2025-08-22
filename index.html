@@ -11,14 +11,25 @@
     .light { --bg:#f7f8fa; --surface:#fff; --elev:#f2f4f8; --text:#0c1116; --muted:#556070; --accent:#0ea5e9; --link:#2563eb; --ring:rgba(14,165,233,.3); --shadow:0 8px 20px rgba(2,6,23,.08); }
     *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);background:linear-gradient(180deg,var(--bg),#0b0c10 60%)}a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}.container{width:min(1100px,92%);margin:0 auto}header{position:sticky;top:0;z-index:1000;backdrop-filter:blur(12px);background:color-mix(in oklab,var(--bg) 80%,transparent);border-bottom:1px solid color-mix(in oklab,var(--text) 12%,transparent);transition:transform .35s ease, background-color .2s ease, border-color .2s ease}header.hide{transform:translateY(-100%)}header.scrolled{background:color-mix(in oklab,var(--bg) 92%,transparent);border-bottom-color:color-mix(in oklab,var(--text) 18%,transparent)}.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 6px var(--ring)}nav a{margin:0 10px;font-weight:600;color:var(--text);opacity:.8}nav a.active,nav a:hover{opacity:1;color:var(--accent)}.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid color-mix(in oklab,var(--text) 14%,transparent);padding:10px 14px;border-radius:999px;background:var(--surface);color:var(--text);box-shadow:var(--shadow)}.btn:hover{border-color:var(--accent);transform:translateY(-1px)}.btn.primary{background:var(--accent);color:#052e2b;border-color:transparent}.hero{padding:80px 0 40px;display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}.headline{font-size:clamp(28px,3.2vw,48px);font-weight:800}.subtitle{margin-top:14px;color:var(--muted);font-size:clamp(16px,1.6vw,18px)}.cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}.portrait{justify-self:end;width:min(320px,90%);aspect-ratio:1/1;border-radius:22px;background:var(--elev);border:1px solid color-mix(in oklab,var(--text) 10%,transparent);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.portrait img{width:100%;height:100%;object-fit:cover;border-radius:22px}.badge{position:absolute;right:-14px;bottom:14px;background:var(--elev);padding:8px 12px;border-radius:999px;font-size:12px}section{padding:64px 0;border-top:1px solid color-mix(in oklab,var(--text) 10%,transparent)}h2{font-size:26px;margin:0 0 14px}p.lead{color:var(--muted);margin:0 0 24px}.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{padding:8px 12px;border-radius:999px;border:1px solid color-mix(in oklab,var(--text) 14%,transparent);background:var(--surface);font-size:13px}.grid{display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}.card{background:var(--surface);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.timeline{display:grid;gap:14px}.item{display:grid;grid-template-columns:140px 1fr;gap:18px;align-items:flex-start}footer{padding:40px 0 80px;color:var(--muted);text-align:center}@media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.item{grid-template-columns:1fr}}@media(max-width:600px){nav{display:none}.grid{grid-template-columns:1fr}}.lang-icons{display:flex;gap:12px;flex-wrap:wrap}.lang-icons img{width:32px;height:32px}
   </style>
+<style>
+  /* Shooting star background */
+  #starfield{position:fixed; inset:0; pointer-events:none; z-index:0;}
+  main, footer { position: relative; z-index: 1; }
+</style>
+<style>
+  /* Header shooter canvas sizing */
+  #header-shooter{position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:auto; cursor:grab}
+</style>
 </head>
 <body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
   <header class="sticky-header">
   <div class="container nav">
     <div class="brand"><span class="dot"></span><span id="brand-name">Aniruddha Roy</span></div>
   </div>
   <div class="header-anim" aria-hidden="true">
-    <div class="ribbon"></div>
+    <canvas id="header-shooter"></canvas>
+  </div>
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
@@ -314,9 +325,7 @@
     if(!btn) return;
     const addr = 'ar7475@rit.edu';
     const subject = encodeURIComponent('Hello Ayon');
-    const body = encodeURIComponent('Hi Ayon,
-
-');
+    const body = encodeURIComponent('Hi Ayon,\n\n');
     const mailto = `mailto:${addr}?subject=${subject}&body=${body}`;
     btn.addEventListener('click', function(e){
       // Some environments block default mailto navigation; try programmatic open
@@ -346,5 +355,310 @@
 })();
     document.getElementById('year').textContent=new Date().getFullYear();
   </script>
+<script>
+(function(){
+  const canvas = document.getElementById('starfield');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w, h, pr;
+  function resize(){
+    pr = Math.min(2, window.devicePixelRatio || 1);
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = Math.floor(w * pr);
+    canvas.height = Math.floor(h * pr);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.setTransform(pr,0,0,pr,0,0);
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive:true });
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const STAR_COUNT = Math.round((window.innerWidth * window.innerHeight) / 9000);
+  const stars = [];
+  for(let i=0;i<STAR_COUNT;i++){
+    stars.push({
+      x: Math.random()*w,
+      y: Math.random()*h,
+      r: Math.random()*1.2+0.2,
+      a: Math.random()*0.8+0.2,
+      tw: (Math.random()*0.8+0.2) * (Math.random()<0.5?1:-1) * 0.004
+    });
+  }
+
+  let shooting = null;
+  let nextShot = performance.now() + 3000 + Math.random()*4000;
+  function spawnShoot(){
+     const side = Math.random()<0.5?'left':'top';
+     const speed = 280 + Math.random()*140; // px/s
+     let x, y, vx, vy;
+     if(side==='left'){ x = -60; y = Math.random()*h*0.6; }
+     else { x = Math.random()*w*0.4; y = -60; }
+     // Diagonal movement (~45deg) with slight variance
+     const base = Math.PI/4 + (Math.random()*0.25 - 0.125);
+     vx = Math.cos(base) * speed;
+     vy = Math.sin(base) * speed;
+     shooting = { x, y, vx, vy, life: 0, max: 1800 };
+  }
+
+  let last = performance.now();
+  function frame(now){
+    const dt = Math.min(50, now - last); last = now;
+    ctx.clearRect(0,0,w,h);
+
+    // twinkling stars
+    for(const s of stars){
+      if(!reduce){
+        s.a += s.tw * dt;
+        if(s.a < 0.15 || s.a > 1){ s.tw *= -1; s.a = Math.max(0.15, Math.min(1, s.a)); }
+      }
+      ctx.globalAlpha = s.a;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = '#ffffff';
+      ctx.shadowBlur = 8; ctx.shadowColor = 'white';
+      ctx.fill();
+      ctx.shadowBlur = 0;
+    }
+    ctx.globalAlpha = 1;
+
+    if(!reduce){
+      // shooting star timing
+      if(!shooting && now > nextShot){
+        spawnShoot();
+        nextShot = now + 4000 + Math.random()*7000; // 4–11s
+      }
+      if(shooting){
+        shooting.life += dt;
+        shooting.x += shooting.vx * (dt/1000);
+        shooting.y += shooting.vy * (dt/1000);
+
+        // trail
+        ctx.lineWidth = 2;
+        const tx = shooting.x - shooting.vx * 0.15;
+        const ty = shooting.y - shooting.vy * 0.15;
+        const grad = ctx.createLinearGradient(shooting.x, shooting.y, tx, ty);
+        grad.addColorStop(0, 'rgba(255,255,255,0.9)');
+        grad.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.strokeStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(shooting.x, shooting.y);
+        ctx.lineTo(tx, ty);
+        ctx.stroke();
+
+        // head
+        ctx.beginPath();
+        ctx.arc(shooting.x, shooting.y, 1.6, 0, Math.PI*2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = 12; ctx.shadowColor = 'white';
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        if(shooting.life > shooting.max || shooting.x > w+80 || shooting.y > h+80){
+          shooting = null;
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+<script>
+// Header space-shooter animation (rocket on left, asteroids to the right) + drag to move
+(function(){
+  const container = document.querySelector('.header-anim');
+  const cvs = document.getElementById('header-shooter');
+  if(!container || !cvs) return;
+  const ctx = cvs.getContext('2d');
+  let w=0, h=0, pr=1;
+  function resize(){
+    pr = Math.min(2, window.devicePixelRatio||1);
+    const rect = container.getBoundingClientRect();
+    w = Math.max(300, Math.floor(rect.width));
+    h = Math.max(48, Math.floor(rect.height));
+    cvs.width = Math.floor(w*pr);
+    cvs.height = Math.floor(h*pr);
+    cvs.style.width = w+'px';
+    cvs.style.height = h+'px';
+    ctx.setTransform(pr,0,0,pr,0,0);
+  }
+  resize();
+  window.addEventListener('resize', resize, {passive:true});
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce){ ctx.clearRect(0,0,w,h); return; }
+
+  const styles = getComputedStyle(document.documentElement);
+  const ACCENT = (styles.getPropertyValue('--accent')||'#6ee7b7').trim();
+
+  // reddish-purple gradient colors for the bar
+  const BG1 = 'rgba(244,63,94,0.14)';   // rose-500
+  const BG2 = 'rgba(167,139,250,0.14)'; // violet-400
+
+  // Entities
+  const bullets = []; // {x,y,vx}
+  const rocks = [];   // {x,y,r,vx,rot,vr}
+  const sparks = [];  // {x,y,vx,vy,a}
+
+  const rocket = { x: 28, y: h*0.5, bob: 0, fire: 0, dragging:false };
+
+  // Drag to move rocket
+  function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+  function pointerToPos(e){
+    const r = cvs.getBoundingClientRect();
+    const x = e.clientX - r.left; const y = e.clientY - r.top; return {x,y};
+  }
+  cvs.addEventListener('pointerdown', (e)=>{
+    const p = pointerToPos(e);
+    rocket.dragging = true; cvs.setPointerCapture(e.pointerId); cvs.style.cursor='grabbing';
+    rocket.x = clamp(p.x, 12, w*0.5); rocket.y = clamp(p.y, 10, h-10);
+    e.preventDefault();
+  });
+  cvs.addEventListener('pointermove', (e)=>{
+    if(!rocket.dragging) return; const p = pointerToPos(e);
+    rocket.x = clamp(p.x, 12, w*0.5); rocket.y = clamp(p.y, 10, h-10);
+  });
+  function endDrag(e){ if(!rocket.dragging) return; rocket.dragging=false; cvs.releasePointerCapture(e.pointerId); cvs.style.cursor='grab'; }
+  cvs.addEventListener('pointerup', endDrag);
+  cvs.addEventListener('pointercancel', endDrag);
+  cvs.addEventListener('pointerleave', endDrag);
+
+  let last = performance.now();
+  let nextShot = last + 600;
+  let nextRock = last + 1200;
+
+  function spawnRock(){
+    const r = 6 + Math.random()*10;
+    const y = 10 + Math.random()*(h-20);
+    const vx = -(40 + Math.random()*60); // px/s to left
+    const rot = Math.random()*Math.PI*2;
+    const vr = (Math.random()*1.2 - 0.6); // spin
+    rocks.push({x:w+20, y, r, vx, rot, vr});
+  }
+  function shoot(){
+    const noseX = rocket.x + 20;
+    const noseY = rocket.y + Math.sin(rocket.bob)*2;
+    bullets.push({x:noseX, y:noseY, vx:220});
+  }
+
+  function drawRocket(dt){
+    rocket.bob += dt*3;
+    rocket.fire += dt*8;
+    if(!rocket.dragging){ rocket.y = h*0.5 + Math.sin(rocket.bob)*2; }
+
+    const x = rocket.x, y = rocket.y;
+    // body
+    ctx.fillStyle = ACCENT;
+    ctx.beginPath();
+    ctx.moveTo(x-6, y-6);
+    ctx.lineTo(x-6, y+6);
+    ctx.lineTo(x+18, y);
+    ctx.closePath();
+    ctx.fill();
+    // window
+    ctx.fillStyle = '#0b0c10';
+    ctx.beginPath(); ctx.arc(x+2, y, 2, 0, Math.PI*2); ctx.fill();
+    // flame
+    const fl = 6 + Math.sin(rocket.fire)*2;
+    const grad = ctx.createLinearGradient(x-10, y, x-2, y);
+    grad.addColorStop(0,'rgba(255,200,0,0.9)');
+    grad.addColorStop(1,'rgba(255,120,0,0.0)');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.moveTo(x-6, y-3);
+    ctx.lineTo(x-6, y+3);
+    ctx.lineTo(x-6-fl, y);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawRock(rk){
+    ctx.save();
+    ctx.translate(rk.x, rk.y);
+    ctx.rotate(rk.rot);
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.beginPath();
+    const pts = 8;
+    for(let i=0;i<pts;i++){
+      const ang = (i/pts)*Math.PI*2;
+      const rad = rk.r * (0.8 + Math.random()*0.3);
+      const px = Math.cos(ang)*rad;
+      const py = Math.sin(ang)*rad;
+      if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+    }
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  function explode(x,y){
+    for(let i=0;i<6;i++){
+      const a = Math.random()*Math.PI*2;
+      const sp = 40+Math.random()*80;
+      sparks.push({x,y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp, a:1});
+    }
+  }
+
+  function step(now){
+    const dt = Math.min(60, now-last)/1000; last = now;
+    // clear with reddish-purple gradient
+    const bg = ctx.createLinearGradient(0,0,w,0);
+    bg.addColorStop(0, BG1);
+    bg.addColorStop(1, BG2);
+    ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
+
+    // timeline: spawn
+    if(now>nextRock){ spawnRock(); nextRock = now + 900 + Math.random()*900; }
+    if(now>nextShot){ shoot(); nextShot = now + 450; }
+
+    // update/draw bullets
+    ctx.strokeStyle = ACCENT; ctx.lineWidth = 2; ctx.lineCap='round';
+    for(let i=bullets.length-1;i>=0;i--){
+      const b = bullets[i];
+      b.x += b.vx*dt;
+      ctx.beginPath(); ctx.moveTo(b.x-6, b.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      if(b.x> w+10) bullets.splice(i,1);
+    }
+
+    // update/draw rocks
+    for(let i=rocks.length-1;i>=0;i--){
+      const r = rocks[i];
+      r.x += r.vx*dt; r.rot += r.vr*dt;
+      drawRock(r);
+      if(r.x < -30) rocks.splice(i,1);
+    }
+
+    // collisions
+    for(let i=rocks.length-1;i>=0;i--){
+      const r = rocks[i];
+      for(let j=bullets.length-1;j>=0;j--){
+        const b = bullets[j];
+        const dx = b.x - r.x, dy = b.y - r.y;
+        if(dx*dx + dy*dy < (r.r*r.r)){
+          explode(r.x, r.y);
+          rocks.splice(i,1); bullets.splice(j,1);
+          break;
+        }
+      }
+    }
+
+    // sparks
+    for(let i=sparks.length-1;i>=0;i--){
+      const s = sparks[i];
+      s.x += s.vx*dt; s.y += s.vy*dt; s.a -= dt*1.8;
+      ctx.globalAlpha = Math.max(0,s.a);
+      ctx.fillStyle = 'rgba(255,255,255,0.9)';
+      ctx.fillRect(s.x, s.y, 2, 2);
+      ctx.globalAlpha = 1;
+      if(s.a<=0) sparks.splice(i,1);
+    }
+
+    drawRocket(dt);
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+</script>
 </body>
 </html>
