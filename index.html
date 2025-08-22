@@ -9,7 +9,10 @@
   <style>
     :root { --bg:#0b0c10; --surface:#121318; --elev:#171923; --text:#eaeaea; --muted:#a3aab8; --accent:#6ee7b7; --link:#8ab4f8; --ring:rgba(110,231,183,0.35); --shadow:0 10px 25px rgba(0,0,0,.35); }
     .light { --bg:#f7f8fa; --surface:#fff; --elev:#f2f4f8; --text:#0c1116; --muted:#556070; --accent:#0ea5e9; --link:#2563eb; --ring:rgba(14,165,233,.3); --shadow:0 8px 20px rgba(2,6,23,.08); }
-    *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);background:linear-gradient(180deg,var(--bg),#0b0c10 60%)}a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}.container{width:min(1100px,92%);margin:0 auto}header{position:sticky;top:0;z-index:1000;backdrop-filter:blur(12px);background:color-mix(in oklab,var(--bg) 80%,transparent);border-bottom:1px solid color-mix(in oklab,var(--text) 12%,transparent);transition:transform .35s ease, background-color .2s ease, border-color .2s ease}header.hide{transform:translateY(-100%)}header.scrolled{background:color-mix(in oklab,var(--bg) 92%,transparent);border-bottom-color:color-mix(in oklab,var(--text) 18%,transparent)}.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 6px var(--ring)}nav a{margin:0 10px;font-weight:600;color:var(--text);opacity:.8}nav a.active,nav a:hover{opacity:1;color:var(--accent)}.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid color-mix(in oklab,var(--text) 14%,transparent);padding:10px 14px;border-radius:999px;background:var(--surface);color:var(--text);box-shadow:var(--shadow)}.btn:hover{border-color:var(--accent);transform:translateY(-1px)}.btn.primary{background:var(--accent);color:#052e2b;border-color:transparent}.hero{padding:80px 0 40px;display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}.headline{font-size:clamp(28px,3.2vw,48px);font-weight:800}.subtitle{margin-top:14px;color:var(--muted);font-size:clamp(16px,1.6vw,18px)}.cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}.portrait{justify-self:end;width:min(320px,90%);aspect-ratio:1/1;border-radius:22px;background:var(--elev);border:1px solid color-mix(in oklab,var(--text) 10%,transparent);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.portrait img{width:100%;height:100%;object-fit:cover;border-radius:22px}.badge{position:absolute;right:-14px;bottom:14px;background:var(--elev);padding:8px 12px;border-radius:999px;font-size:12px}section{padding:64px 0;border-top:1px solid color-mix(in oklab,var(--text) 10%,transparent)}h2{font-size:26px;margin:0 0 14px}p.lead{color:var(--muted);margin:0 0 24px}.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{padding:8px 12px;border-radius:999px;border:1px solid color-mix(in oklab,var(--text) 14%,transparent);background:var(--surface);font-size:13px}.grid{display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}.card{background:var(--surface);border-radius:16px;padding:18px;box-shadow:var(--shadow)}.timeline{display:grid;gap:14px}.item{display:grid;grid-template-columns:140px 1fr;gap:18px;align-items:flex-start}footer{padding:40px 0 80px;color:var(--muted);text-align:center}@media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.item{grid-template-columns:1fr}}@media(max-width:600px){nav{display:none}.grid{grid-template-columns:1fr}}.lang-icons{display:flex;gap:12px;flex-wrap:wrap}.lang-icons img{width:32px;height:32px}
+    *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;color:var(--text);background:linear-gradient(180deg,var(--bg),#0b0c10 60%)}a{color:var(--link);text-decoration:none}a:hover{text-decoration:underline}.container{width:min(1100px,92%);margin:0 auto}header{position:sticky;top:0;z-index:1000;backdrop-filter:blur(12px);background:color-mix(in oklab,var(--bg) 80%,transparent);border-bottom:1px solid color-mix(in oklab,var(--text) 12%,transparent);transition:transform .35s ease, background-color .2s ease, border-color .2s ease}header.hide{transform:translateY(-100%)}header.scrolled{background:color-mix(in oklab,var(--bg) 92%,transparent);border-bottom-color:color-mix(in oklab,var(--text) 18%,transparent)}.nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.brand .dot{width:10px;height:10px;border-radius:999px;background:var(--accent);box-shadow:0 0 0 6px var(--ring)}nav a{margin:0 10px;font-weight:600;color:var(--text);opacity:.8}nav a.active,nav a:hover{opacity:1;color:var(--accent)}.btn{display:inline-flex;align-items:center;gap:10px;border:1px solid color-mix(in oklab,var(--text) 14%,transparent);padding:10px 14px;border-radius:999px;background:var(--surface);color:var(--text);box-shadow:var(--shadow)}.btn:hover{border-color:var(--accent);transform:translateY(-1px)}.btn.primary{background:var(--accent);color:#052e2b;border-color:transparent}.hero{padding:80px 0 40px;display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}.headline{font-size:clamp(28px,3.2vw,48px);font-weight:800}.subtitle{margin-top:14px;color:var(--muted);font-size:clamp(16px,1.6vw,18px)}.cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}.portrait{justify-self:end;width:min(320px,90%);aspect-ratio:1/1;border-radius:22px;background:var(--elev);border:1px solid color-mix(in oklab,var(--text) 10%,transparent);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}.portrait img{width:100%;height:100%;object-fit:cover;border-radius:22px}.badge{position:absolute;right:-14px;bottom:14px;background:var(--elev);padding:8px 12px;border-radius:999px;font-size:12px}section{padding:64px 0;border-top:1px solid color-mix(in oklab,var(--text) 10%,transparent)}h2{font-size:26px;margin:0 0 14px}p.lead{color:var(--muted);margin:0 0 24px}.chips{display:flex;flex-wrap:wrap;gap:10px}.chip{padding:8px 12px;border-radius:999px;border:1px solid color-mix(in oklab,var(--text) 14%,transparent);background:var(--surface);font-size:13px}.grid{display:grid;gap:18px;grid-template-columns:repeat(3,1fr)}.card{position:relative;background:color-mix(in oklab,var(--surface) 55%, transparent);backdrop-filter:blur(8px) saturate(120%);-webkit-backdrop-filter:blur(8px) saturate(120%);border:1px solid color-mix(in oklab,var(--text) 12%, transparent);border-radius:16px;padding:18px;box-shadow:var(--shadow);transition:transform .3s ease, box-shadow .3s ease, border-color .3s ease, background-color .3s ease;overflow:hidden}
+.card:hover{transform:translateY(-6px) scale(1.01);border-color:color-mix(in oklab,var(--accent) 60%, transparent);box-shadow:0 14px 28px rgba(0,0,0,.35), 0 0 0 2px var(--ring) inset;background:color-mix(in oklab,var(--surface) 35%, transparent)}
+.card::after{content:"";position:absolute;inset:-40% -10%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.08),transparent);transform:translateX(-60%);transition:transform .6s ease;pointer-events:none}
+.card:hover::after{transform:translateX(60%)}.timeline{display:grid;gap:14px}.item{display:grid;grid-template-columns:140px 1fr;gap:18px;align-items:flex-start}footer{padding:40px 0 80px;color:var(--muted);text-align:center}@media(max-width:900px){.hero{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}.item{grid-template-columns:1fr}}@media(max-width:600px){nav{display:none}.grid{grid-template-columns:1fr}}.lang-icons{display:flex;gap:12px;flex-wrap:wrap}.lang-icons img{width:32px;height:32px}
   </style>
 <style>
   /* Shooting star background */
@@ -45,8 +48,26 @@
   /* Offset anchors so sticky header doesn't cover headings */
   section{scroll-margin-top:110px}
 </style>
+<style>
+  /* Top scroll progress bar + Back-to-top button */
+  .scroll-progress{position:fixed; top:0; left:0; right:0; height:3px; background:rgba(255,255,255,.06); z-index:2000; pointer-events:none}
+  .scroll-progress .fill{height:100%; width:0%; background:linear-gradient(90deg,#f43f5e,#a78bfa,#6ee7b7); box-shadow:0 0 8px rgba(167,139,250,.6)}
+  #backToTop{position:fixed; right:18px; bottom:22px; padding:10px 12px; border-radius:999px; border:1px solid color-mix(in oklab,var(--text) 14%,transparent); background:color-mix(in oklab,var(--surface) 92%, transparent); color:var(--text); box-shadow:var(--shadow); opacity:0; transform: translateY(8px) scale(.96); transition: opacity .25s ease, transform .25s ease; z-index:2000}
+  #backToTop.show{opacity:1; transform: translateY(0) scale(1)}
+  #backToTop:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+</style>
+<style>
+/* Hero micro-motion + highlight */
+.micro-line{margin-top:10px;font-weight:700;color:var(--muted)}
+.hl{padding:2px 6px;border-radius:8px;background:linear-gradient(90deg,color-mix(in oklab,var(--accent) 60%, #fff), color-mix(in oklab,var(--link) 70%, #000));color:#071013;box-shadow:0 0 0 2px rgba(255,255,255,.06) inset, 0 6px 16px rgba(0,0,0,.25)}
+.cycler{display:inline-block;transition:opacity .25s ease, transform .25s ease}
+.cycler.swap{opacity:0;transform:translateY(-4px)}
+.portrait{will-change:transform;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+@media (prefers-reduced-motion: reduce){.portrait{transition:none}}
+</style>
 </head>
 <body>
+  <div class="scroll-progress" aria-hidden="true"><div id="scrollFill" class="fill"></div></div>
   <canvas id="starfield" aria-hidden="true"></canvas>
   <header class="sticky-header">
   <div class="container nav">
@@ -104,7 +125,8 @@
     <section class="hero fancy-hero"><div>
       <h1 class="headline">Hi, I'm <span id="hero-name">Aniruddha</span> — <span style="color: var(--accent)">CS student & software engineer</span></h1>
       <p class="subtitle">I build AI-powered, user-focused software. CS @ RIT • AI concentration • Business minor. I like shipping things that make sense in the real world.</p>
-      <div class="cta fancy-cta"><a class="btn primary glow" href="https://www.linkedin.com/in/aniruddha-roy-rit/overlay/1754729736668/single-media-viewer/?profileId=ACoAADnE-T8BGTcYp37z7OF60WtTH_HDjnmZr9o" target="_blank">⬇️ Download Résumé</a><a class="btn glow" href="https://github.com/ayonftw" target="_blank">💻 GitHub</a><a class="btn glow" href="https://www.linkedin.com/in/aniruddha-roy-rit/" target="_blank">🔗 LinkedIn</a></div>
+      <div class="micro-line">I turn <span class="hl"><span id="cycleLeft" class="cycler">Idea</span></span> → <span class="hl"><span id="cycleRight" class="cycler">Prototype</span></span></div>
+      
     </div><div class="portrait"><img src="9cb06cbd-11ab-4e3f-a153-0aad14db774f.png" alt="Aniruddha Roy portrait"><span class="badge">Open to Co-op (SWE/DS/PM)</span></div></section>
     <section id="about"><h2>About</h2><p class="lead">Hi, I’m Aniruddha Roy — a rising senior at RIT majoring in Computer Science with an AI concentration, a Business Administration minor, and an Economics immersion. I love building tech that’s smart and practical.</p><p>I’m looking for software engineering, data science, or product management co-op roles where I can blend machine-learning chops with business sense to ship products that make life easier. If you’re building something exciting at the intersection of AI, data, and UX, let’s chat. Also into rock concerts, hiking trails, and great coffee.</p><div class="chips"><span class="chip">RIT · Class of 2027</span><span class="chip">Global Union President</span><span class="chip">AI Concentration</span></div></section>
     <section id="projects"><h2>Projects</h2><div class="grid">
@@ -371,7 +393,9 @@
   .fancy-cta { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin-top:20px; }
 </style>
   </main>
-  <footer><div class="container"><p>© <span id="year"></span> Aniruddha Roy. Built with plain HTML/CSS/JS. Hosted on GitHub Pages.</p></div></footer>
+  <footer><div class="container"><p>© <span id="year"></span> Aniruddha Roy.</p>
+  <p>"You can't have a million-dollar dream with a minimum wage work ethic." — Zig Ziglar.</p>
+  </div></footer>
   <script>
     (function(){const root=document.documentElement;const stored=localStorage.getItem('theme');if(stored) root.className=stored;var _t=document.getElementById('themeToggle'); if(_t) _t.addEventListener('click',()=>{const next=root.classList.contains('dark')?'light':'dark';root.className=next;localStorage.setItem('theme',next);});})();
     (function(){
@@ -730,6 +754,98 @@
     entries.forEach(e=>{ if(e.isIntersecting){ setActive(e.target.id); } });
   }, { rootMargin: '-40% 0px -40% 0px', threshold: 0.1 });
   sections.forEach(s=>io.observe(s));
+})();
+</script>
+<button id="backToTop" aria-label="Back to top" title="Back to top">▲</button>
+<script>
+(function(){
+  const fill = document.getElementById('scrollFill');
+  const btn = document.getElementById('backToTop');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function onScroll(){
+    const y = window.scrollY || document.documentElement.scrollTop;
+    const d = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const pct = Math.min(100, Math.max(0, (y/d)*100));
+    if(fill) fill.style.width = pct + '%';
+    if(btn){ if(y > 600) btn.classList.add('show'); else btn.classList.remove('show'); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll, {passive:true});
+  onScroll();
+  if(btn){ btn.addEventListener('click', (e)=>{ e.preventDefault(); reduce ? window.scrollTo(0,0) : window.scrollTo({top:0, behavior:'smooth'}); }); }
+})();
+</script>
+<script>
+// Hero micro-motion (parallax) + headline cycle + stat counters
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Word cycle
+  const leftEl = document.getElementById('cycleLeft');
+  const rightEl = document.getElementById('cycleRight');
+  if(leftEl && rightEl){
+    const pairs = [
+      ['Idea','Prototype'],
+      ['Prototype','MVP'],
+      ['Data','Insight'],
+      ['Insight','Decisions'],
+      ['Model','Product']
+    ];
+    let i=0;
+    setInterval(()=>{ if(reduce) return;
+      leftEl.classList.add('swap'); rightEl.classList.add('swap');
+      setTimeout(()=>{ i=(i+1)%pairs.length; leftEl.textContent=pairs[i][0]; rightEl.textContent=pairs[i][1]; leftEl.classList.remove('swap'); rightEl.classList.remove('swap'); }, 220);
+    }, 2400);
+  }
+  // Parallax on portrait + headline
+  const hero = document.querySelector('.hero');
+  const portrait = document.querySelector('.portrait');
+  const headline = document.querySelector('.headline');
+  if(hero && portrait){
+    let mx=0,my=0; // mouse target
+    let cx=0,cy=0; // current
+    function onMove(e){
+      const r = hero.getBoundingClientRect();
+      const dx = ((e.clientX - (r.left + r.width/2)) / r.width);
+      const dy = ((e.clientY - (r.top + r.height/2)) / r.height);
+      mx = dx*12; my = dy*8;
+    }
+    if(!reduce){ hero.addEventListener('mousemove', onMove); }
+    function raf(){
+      cx += (mx - cx)*0.06; cy += (my - cy)*0.06;
+      portrait.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      if(headline) headline.style.transform = `translate3d(${cx*0.25}px, ${cy*0.25}px, 0)`;
+      requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+  }
+  // Stat counters
+  const nums = document.querySelectorAll('.stat-number');
+  if(nums.length){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ animate(e.target); io.unobserve(e.target); } });
+    }, {threshold:0.6, rootMargin:'0px 0px -10% 0px'});
+    nums.forEach(n=> io.observe(n));
+    function animate(el){
+      const target = +el.dataset.target || 0; const dur = +(el.dataset.duration||1200);
+      if(reduce){ el.textContent = format(target, el.dataset); return; }
+      const start = performance.now();
+      function tick(now){
+        const t = Math.min(1,(now-start)/dur);
+        const val = Math.round(target * t);
+        el.textContent = format(val, el.dataset);
+        if(t<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    function format(val, ds){
+      let out = val;
+      if(ds.abbr==='true'){
+        if(val>=1e6) out = (val/1e6).toFixed(1).replace(/\.0$/,'') + 'M';
+        else if(val>=1e3) out = Math.round(val/1e3) + 'K';
+      }
+      return (ds.prefix||'') + out + (ds.suffix||'');
+    }
+  }
 })();
 </script>
 </body>
