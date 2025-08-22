@@ -20,19 +20,49 @@
   /* Header shooter canvas sizing */
   #header-shooter{position:absolute; inset:0; width:100%; height:100%; display:block; pointer-events:auto; cursor:grab}
 </style>
+<style>
+  /* Hint bubble for interactive header game */
+  #shooter-hint{
+    position:absolute; left:56px; top:50%; transform:translateY(-50%);
+    z-index:2; padding:6px 12px; border-radius:999px; white-space:nowrap;
+    font-size:12px; font-weight:700; letter-spacing:.2px; color:#fff;
+    background: linear-gradient(90deg, rgba(244,63,94,.92), rgba(167,139,250,.92));
+    box-shadow:0 8px 18px rgba(0,0,0,.25), 0 0 0 2px rgba(255,255,255,.08) inset;
+    animation: hint-bob 2s ease-in-out infinite;
+    pointer-events:none;
+  }
+  #shooter-hint::after{
+    content:""; position:absolute; left:-10px; top:50%; transform:translateY(-50%);
+    width:10px; height:10px; background:inherit; filter:brightness(.95);
+    clip-path: polygon(0 50%, 100% 0, 100% 100%);
+  }
+  #shooter-hint.hide{ opacity:0; transition: opacity .4s ease; }
+  @keyframes hint-bob{ 0%{transform:translateY(-50%)} 50%{transform:translateY(-56%)} 100%{transform:translateY(-50%)} }
+</style>
+<style>
+  /* Smooth in-page navigation */
+  html{scroll-behavior:smooth}
+  /* Offset anchors so sticky header doesn't cover headings */
+  section{scroll-margin-top:110px}
+</style>
 </head>
 <body>
   <canvas id="starfield" aria-hidden="true"></canvas>
   <header class="sticky-header">
   <div class="container nav">
     <div class="brand"><span class="dot"></span><span id="brand-name">Aniruddha Roy</span></div>
+    <nav aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a href="#contact">Contact</a>
+    </nav>
   </div>
-  <div class="header-anim" aria-hidden="true">
+  <div class="header-anim" aria-hidden="false">
+    <div id="shooter-hint" role="status" aria-live="polite">Use me! Drag the rocket 🚀</div>
     <canvas id="header-shooter"></canvas>
-  </div>
-    <div class="orb orb1"></div>
-    <div class="orb orb2"></div>
-    <div class="orb orb3"></div>
   </div>
 </header>
 <style>
@@ -466,10 +496,11 @@
 })();
 </script>
 <script>
-// Header space-shooter animation (rocket on left, asteroids to the right) + drag to move
+// Header space-shooter animation (rocket, asteroids) + drag + first-load hint
 (function(){
   const container = document.querySelector('.header-anim');
   const cvs = document.getElementById('header-shooter');
+  const hint = document.getElementById('shooter-hint');
   if(!container || !cvs) return;
   const ctx = cvs.getContext('2d');
   let w=0, h=0, pr=1;
@@ -488,21 +519,40 @@
   window.addEventListener('resize', resize, {passive:true});
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduce){ ctx.clearRect(0,0,w,h); return; }
+  if(reduce){ ctx.clearRect(0,0,w,h); if(hint) hint.style.display='none'; return; }
 
   const styles = getComputedStyle(document.documentElement);
   const ACCENT = (styles.getPropertyValue('--accent')||'#6ee7b7').trim();
-
   // reddish-purple gradient colors for the bar
   const BG1 = 'rgba(244,63,94,0.14)';   // rose-500
   const BG2 = 'rgba(167,139,250,0.14)'; // violet-400
 
   // Entities
-  const bullets = []; // {x,y,vx}
-  const rocks = [];   // {x,y,r,vx,rot,vr}
-  const sparks = [];  // {x,y,vx,vy,a}
+  const bullets = [];
+  const rocks = [];
+  const sparks = [];
 
   const rocket = { x: 28, y: h*0.5, bob: 0, fire: 0, dragging:false };
+
+  // First-load hint logic
+  const HINT_KEY = 'headerShooterHintSeen';
+  const seen = localStorage.getItem(HINT_KEY) === '1';
+  if(seen && hint) hint.style.display='none';
+  let hintTimeout = null;
+  function showHint(){
+    if(!hint || seen) return; // show only until first interaction
+    hint.classList.remove('hide');
+    // auto-hide after a bit, but only mark as seen on interaction
+    hintTimeout = setTimeout(()=>{ if(hint){ hint.classList.add('hide'); setTimeout(()=>{hint.style.display='none'}, 450);} }, 8000);
+  }
+  function dismissHint(markSeen){
+    if(!hint) return;
+    if(hintTimeout) { clearTimeout(hintTimeout); hintTimeout=null; }
+    hint.classList.add('hide');
+    setTimeout(()=>{ hint.style.display='none'; }, 450);
+    if(markSeen) localStorage.setItem(HINT_KEY,'1');
+  }
+  showHint();
 
   // Drag to move rocket
   function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
@@ -510,17 +560,20 @@
     const r = cvs.getBoundingClientRect();
     const x = e.clientX - r.left; const y = e.clientY - r.top; return {x,y};
   }
+  cvs.style.pointerEvents = 'auto';
+  cvs.style.cursor = 'grab';
   cvs.addEventListener('pointerdown', (e)=>{
     const p = pointerToPos(e);
     rocket.dragging = true; cvs.setPointerCapture(e.pointerId); cvs.style.cursor='grabbing';
     rocket.x = clamp(p.x, 12, w*0.5); rocket.y = clamp(p.y, 10, h-10);
+    dismissHint(true);
     e.preventDefault();
   });
   cvs.addEventListener('pointermove', (e)=>{
     if(!rocket.dragging) return; const p = pointerToPos(e);
     rocket.x = clamp(p.x, 12, w*0.5); rocket.y = clamp(p.y, 10, h-10);
   });
-  function endDrag(e){ if(!rocket.dragging) return; rocket.dragging=false; cvs.releasePointerCapture(e.pointerId); cvs.style.cursor='grab'; }
+  function endDrag(e){ if(!rocket.dragging) return; rocket.dragging=false; try{ cvs.releasePointerCapture(e.pointerId); }catch(_){} cvs.style.cursor='grab'; }
   cvs.addEventListener('pointerup', endDrag);
   cvs.addEventListener('pointercancel', endDrag);
   cvs.addEventListener('pointerleave', endDrag);
@@ -608,11 +661,16 @@
     bg.addColorStop(1, BG2);
     ctx.fillStyle = bg; ctx.fillRect(0,0,w,h);
 
-    // timeline: spawn
+    // update hint position near rocket
+    if(hint && hint.style.display !== 'none'){
+      hint.style.top = Math.max(8, Math.min(h-8, rocket.y)) + 'px';
+    }
+
+    // spawn timeline
     if(now>nextRock){ spawnRock(); nextRock = now + 900 + Math.random()*900; }
     if(now>nextShot){ shoot(); nextShot = now + 450; }
 
-    // update/draw bullets
+    // bullets
     ctx.strokeStyle = ACCENT; ctx.lineWidth = 2; ctx.lineCap='round';
     for(let i=bullets.length-1;i>=0;i--){
       const b = bullets[i];
@@ -621,7 +679,7 @@
       if(b.x> w+10) bullets.splice(i,1);
     }
 
-    // update/draw rocks
+    // rocks
     for(let i=rocks.length-1;i>=0;i--){
       const r = rocks[i];
       r.x += r.vx*dt; r.rot += r.vr*dt;
@@ -658,6 +716,20 @@
     requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
+})();
+</script>
+<script>
+// Highlight active nav link while scrolling
+(function(){
+  const links = Array.from(document.querySelectorAll('header nav a'));
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  function setActive(id){
+    links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
+  }
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ setActive(e.target.id); } });
+  }, { rootMargin: '-40% 0px -40% 0px', threshold: 0.1 });
+  sections.forEach(s=>io.observe(s));
 })();
 </script>
 </body>
